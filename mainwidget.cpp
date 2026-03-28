@@ -7,7 +7,9 @@
 #include "mainwidget.h"
 #include <QHostInfo>
 
-MainWidget::MainWidget(QWidget *parent) : QWidget(parent) {
+MainWidget::MainWidget(const NetworkService& networkService, QWidget *parent) : QWidget(parent) {
+    mNetworkService = networkService;
+
     mIPPortHLayout = new QHBoxLayout();
 
     mIPPortVLayout = new QVBoxLayout();
@@ -53,19 +55,8 @@ MainWidget::~MainWidget() {
 }
 
 void MainWidget::updateIPAddresses() const {
-    QList<QHostAddress> addresses = getIPAddresses();
+    QList<QHostAddress> addresses = mNetworkService.getIPAddresses();
     for (const auto& address : addresses) {
         mIPAddressComboBox->addItem(address.toString());
     }
-}
-
-QList<QHostAddress> MainWidget::getIPAddresses() const {
-    QList<QHostAddress> addresses = QHostInfo::fromName(QHostInfo::localHostName()).addresses();
-    QList<QHostAddress> filtered = QList<QHostAddress>();
-    for (const auto& address : addresses) {
-        if (address.protocol() == QAbstractSocket::IPv4Protocol && (address.toString() != "127.0.0.1")) {
-            filtered.append(address);
-        }
-    }
-    return filtered;
 }

@@ -20,6 +20,8 @@ add_executable(QFileTransfer main.cpp
         mainwindow.h
         mainwidget.cpp
         mainwidget.h
+        Network/NetworkService.cpp
+        Network/NetworkService.h
 )
 target_link_libraries(QFileTransfer
         Qt::Core

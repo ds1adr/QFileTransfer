@@ -10,7 +10,7 @@
 #include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    mMainWidget = new MainWidget(this);
+    mMainWidget = new MainWidget(NetworkService(), this);
     this->setCentralWidget(mMainWidget);
 
 }

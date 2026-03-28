@@ -14,15 +14,18 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+#include "Network/NetworkService.h"
+
 class MainWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit MainWidget(QWidget *parent = nullptr);
-
+    MainWidget(const NetworkService& networkService, QWidget* parent = nullptr);
     ~MainWidget() override;
 
 private:
+    NetworkService mNetworkService;
+
     // For IP Address
     QHBoxLayout* mIPPortHLayout;
 
@@ -40,9 +43,7 @@ private:
 
     QVBoxLayout* mMainLayout;
 
-
     void updateIPAddresses() const;
-    QList<QHostAddress> getIPAddresses() const;
 };
 
 
