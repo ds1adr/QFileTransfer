@@ -8,18 +8,33 @@
 #include <QHostInfo>
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent) {
-    mIPHBoxlayout = new QHBoxLayout();
+    mIPPortHLayout = new QHBoxLayout();
+
+    mIPPortVLayout = new QVBoxLayout();
+
+    mIPHLayout = new QHBoxLayout();
     mIPLabel = new QLabel("IP:");
     mIPAddressComboBox = new QComboBox();
-    mIPAddressComboBox->setFixedWidth(250);
+
+    mIPHLayout->addWidget(mIPLabel);
+    mIPHLayout->addWidget(mIPAddressComboBox);
+
+    mPortHLayout = new QHBoxLayout();
+    mPortLabel = new QLabel("Port:");
+    mPortLineEdit = new QLineEdit();
+    mPortHLayout->addWidget(mPortLabel);
+    mPortHLayout->addWidget(mPortLineEdit);
+
+    mIPPortVLayout->addLayout(mIPHLayout);
+    mIPPortVLayout->addLayout(mPortHLayout);
+
+    mIPPortHLayout->addLayout(mIPPortVLayout);
 
     mStartStopButton = new QPushButton("Start");
-    mIPHBoxlayout->addWidget(mIPLabel);
-    mIPHBoxlayout->addWidget(mIPAddressComboBox);
-    mIPHBoxlayout->addWidget(mStartStopButton);
+    mIPPortHLayout->addWidget(mStartStopButton);
 
     mMainLayout =new QVBoxLayout(this);
-    mMainLayout->addLayout(mIPHBoxlayout);
+    mMainLayout->addLayout(mIPPortHLayout);
 
     updateIPAddresses();
 }
@@ -28,7 +43,12 @@ MainWidget::~MainWidget() {
     delete mIPLabel;
     delete mIPAddressComboBox;
     delete mStartStopButton;
-    delete mIPHBoxlayout;
+    delete mIPHLayout;
+    delete mPortLabel;
+    delete mPortLineEdit;
+    delete mPortHLayout;
+    delete mIPPortHLayout;
+    delete mIPPortVLayout;
     delete mMainLayout;
 }
 

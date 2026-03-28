@@ -9,6 +9,7 @@
 #include <QHBoxLayout>
 #include <QHostAddress>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -22,11 +23,23 @@ public:
     ~MainWidget() override;
 
 private:
-    QHBoxLayout* mIPHBoxlayout;
+    // For IP Address
+    QHBoxLayout* mIPPortHLayout;
+
+    QVBoxLayout* mIPPortVLayout;
+
+    QHBoxLayout* mIPHLayout;
     QLabel* mIPLabel;
-    QVBoxLayout* mMainLayout;
     QComboBox* mIPAddressComboBox;
+
+    QHBoxLayout* mPortHLayout;
+    QLabel* mPortLabel;
+    QLineEdit* mPortLineEdit;
+
     QPushButton* mStartStopButton;
+
+    QVBoxLayout* mMainLayout;
+
 
     void updateIPAddresses() const;
     QList<QHostAddress> getIPAddresses() const;
