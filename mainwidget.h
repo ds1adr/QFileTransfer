@@ -5,12 +5,13 @@
 #ifndef QFILETRANSFER_MAINWIDGET_H
 #define QFILETRANSFER_MAINWIDGET_H
 
-#include <QWidget>
-#include <QPushButton>
+#include <QComboBox>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QHostAddress>
 #include <QLabel>
-#include <QLineEdit>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QWidget>
 
 class MainWidget : public QWidget {
     Q_OBJECT
@@ -24,8 +25,11 @@ private:
     QHBoxLayout* mIPHBoxlayout;
     QLabel* mIPLabel;
     QVBoxLayout* mMainLayout;
-    QLineEdit* mIPAddressEdit;
+    QComboBox* mIPAddressComboBox;
     QPushButton* mStartStopButton;
+
+    void updateIPAddresses() const;
+    QList<QHostAddress> getIPAddresses() const;
 };
 
 

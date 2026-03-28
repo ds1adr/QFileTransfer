@@ -12,6 +12,7 @@ find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
+        Network
         REQUIRED)
 
 add_executable(QFileTransfer main.cpp
@@ -24,5 +25,6 @@ target_link_libraries(QFileTransfer
         Qt::Core
         Qt::Gui
         Qt::Widgets
+        Qt6::Network
 )
 
