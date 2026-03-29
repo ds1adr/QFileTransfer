@@ -7,7 +7,7 @@
 #include "mainwidget.h"
 #include <QHostInfo>
 
-MainWidget::MainWidget(const NetworkService& networkService, QWidget *parent) : QWidget(parent) {
+MainWidget::MainWidget(NetworkService* networkService, QWidget *parent) : QWidget(parent) {
     mNetworkService = networkService;
 
     mIPPortHLayout = new QHBoxLayout();
@@ -20,6 +20,7 @@ MainWidget::MainWidget(const NetworkService& networkService, QWidget *parent) : 
 
     mIPHLayout->addWidget(mIPLabel);
     mIPHLayout->addWidget(mIPAddressComboBox);
+    connect(mIPAddressComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateIPComboBox(int)));
 
     mPortHLayout = new QHBoxLayout();
     mPortLabel = new QLabel("Port:");
@@ -34,6 +35,7 @@ MainWidget::MainWidget(const NetworkService& networkService, QWidget *parent) : 
 
     mStartStopButton = new QPushButton("Start");
     mIPPortHLayout->addWidget(mStartStopButton);
+    connect(mStartStopButton, SIGNAL(clicked(bool)), this, SLOT(startStopButtonClicked()));
 
     mMainLayout =new QVBoxLayout(this);
     mMainLayout->addLayout(mIPPortHLayout);
@@ -55,8 +57,22 @@ MainWidget::~MainWidget() {
 }
 
 void MainWidget::updateIPAddresses() const {
-    QList<QHostAddress> addresses = mNetworkService.getIPAddresses();
+    QList<QHostAddress> addresses = mNetworkService->getAddressList();
     for (const auto& address : addresses) {
         mIPAddressComboBox->addItem(address.toString());
+    }
+    mPortLineEdit->setText(QString::number(mNetworkService->getPort()));
+}
+
+void MainWidget::updateIPComboBox(int index) {
+
+}
+
+void MainWidget::startStopButtonClicked() {
+    int result = mNetworkService->startToListen();
+    if (result == -1) {
+
+    } else if (result == -2) {
+
     }
 }

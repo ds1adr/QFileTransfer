@@ -20,11 +20,11 @@ class MainWidget : public QWidget {
     Q_OBJECT
 
 public:
-    MainWidget(const NetworkService& networkService, QWidget* parent = nullptr);
+    MainWidget(NetworkService* networkService, QWidget* parent = nullptr);
     ~MainWidget() override;
 
 private:
-    NetworkService mNetworkService;
+    NetworkService* mNetworkService;
 
     // For IP Address
     QHBoxLayout* mIPPortHLayout;
@@ -44,6 +44,10 @@ private:
     QVBoxLayout* mMainLayout;
 
     void updateIPAddresses() const;
+
+private slots:
+    void startStopButtonClicked();
+    void updateIPComboBox(int index);
 };
 
 

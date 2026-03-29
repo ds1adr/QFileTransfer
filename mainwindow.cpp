@@ -10,11 +10,13 @@
 #include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    mMainWidget = new MainWidget(NetworkService(), this);
+    mNetworkService = new NetworkService();
+    mMainWidget = new MainWidget(mNetworkService, this);
     this->setCentralWidget(mMainWidget);
-
 }
 
 MainWindow::~MainWindow() {
     delete mMainWidget;
+    mNetworkService->clear();
+    delete mNetworkService;
 }

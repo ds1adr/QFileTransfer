@@ -7,14 +7,32 @@
 
 #include <QHostAddress>
 #include <QList>
+#include <QTcpServer>
 
-class NetworkService {
+class NetworkService: public QObject {
+    Q_OBJECT
 
+private:
+    QList<QHostAddress> mAddressList;
+    std::optional<QHostAddress> selectedAddress = std::nullopt;
+    int mPort = 8989;
 
-    public:
+    QList<QHostAddress> scanIPAddresses() const;
+    QTcpServer* mServer = nullptr;
+
+public:
     NetworkService();
     ~NetworkService();
-    QList<QHostAddress> getIPAddresses() const;
+
+    const QList<QHostAddress>& getAddressList() const;
+    const int getPort() const;
+    void setPort(const int port);
+
+    int startToListen();
+    void clear();
+
+private slots:
+    void newConnection();
 };
 
 

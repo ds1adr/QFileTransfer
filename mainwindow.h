@@ -18,6 +18,7 @@ public:
 
 private:
     MainWidget *mMainWidget;
+    NetworkService *mNetworkService;
 };
 
 
