@@ -9,6 +9,12 @@
 #include <QList>
 #include <QTcpServer>
 
+enum NetworkServiceError {
+    NoAddress = -1,
+    FailedToStart = -2,
+};
+
+
 class NetworkService: public QObject {
     Q_OBJECT
 

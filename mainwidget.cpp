@@ -6,6 +6,7 @@
 
 #include "mainwidget.h"
 #include <QHostInfo>
+#include <QMessageBox>
 
 MainWidget::MainWidget(NetworkService* networkService, QWidget *parent) : QWidget(parent) {
     mNetworkService = networkService;
@@ -70,9 +71,13 @@ void MainWidget::updateIPComboBox(int index) {
 
 void MainWidget::startStopButtonClicked() {
     int result = mNetworkService->startToListen();
-    if (result == -1) {
-
-    } else if (result == -2) {
-
+    if (result == NetworkServiceError::NoAddress) {
+        displayError("No Selected IP address");
+    } else if (result == FailedToStart) {
+        displayError("Can't open network. Can you try later or different IP/Port?");
     }
+}
+
+void MainWidget::displayError(char* message) {
+    QMessageBox::critical(this, "Error", message);
 }

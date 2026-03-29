@@ -3,6 +3,7 @@
 //
 
 #include "NetworkService.h"
+#include <QDebug>
 #include <QHostInfo>
 
 NetworkService::NetworkService() {
@@ -41,7 +42,7 @@ QList<QHostAddress> NetworkService::scanIPAddresses() const {
 
 int NetworkService::startToListen() {
     if (!selectedAddress.has_value()) {
-        return -1;
+        return NoAddress;
     }
     if (mServer != nullptr) {
         mServer->close();
@@ -49,14 +50,19 @@ int NetworkService::startToListen() {
     }
     mServer = new QTcpServer(this);
     if (!mServer->listen(selectedAddress.value(), mPort)) {
-        return -2; // Could not start
+        return FailedToStart; // Could not start
     }
     connect(mServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
     return 0;
 }
 
 void NetworkService::newConnection() {
+    QTcpSocket* socket = mServer->nextPendingConnection();
+    if (!socket) {
+        return;
+    }
 
+    qDebug() << "Client connected";
 }
 
 void NetworkService::clear() {

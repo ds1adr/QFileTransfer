@@ -45,6 +45,8 @@ private:
 
     void updateIPAddresses() const;
 
+    void displayError(char* message);
+
 private slots:
     void startStopButtonClicked();
     void updateIPComboBox(int index);
