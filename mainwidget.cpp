@@ -38,8 +38,14 @@ MainWidget::MainWidget(NetworkService* networkService, QWidget *parent) : QWidge
     mIPPortHLayout->addWidget(mStartStopButton);
     connect(mStartStopButton, SIGNAL(clicked(bool)), this, SLOT(startStopButtonClicked()));
 
+    mTreeView = new QTreeView();
+    mFileSystemModel = new QFileSystemModel();
+    mFileSystemModel->setRootPath(QDir::currentPath());
+    mTreeView->setModel(mFileSystemModel);
+
     mMainLayout =new QVBoxLayout(this);
     mMainLayout->addLayout(mIPPortHLayout);
+    mMainLayout->addWidget(mTreeView);
 
     updateIPAddresses();
 }

@@ -7,10 +7,12 @@
 
 #include <QComboBox>
 #include <QHBoxLayout>
+#include <QFileSystemModel>
 #include <QHostAddress>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QTreeView>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -26,9 +28,10 @@ public:
 private:
     NetworkService* mNetworkService;
 
-    // For IP Address
+    // For IP/Port and Start Stop Button
     QHBoxLayout* mIPPortHLayout;
 
+    // For IP and Port
     QVBoxLayout* mIPPortVLayout;
 
     QHBoxLayout* mIPHLayout;
@@ -42,6 +45,9 @@ private:
     QPushButton* mStartStopButton;
 
     QVBoxLayout* mMainLayout;
+
+    QFileSystemModel* mFileSystemModel;
+    QTreeView* mTreeView;
 
     void updateIPAddresses() const;
 
