@@ -43,14 +43,20 @@ MainWidget::MainWidget(NetworkService* networkService, QWidget *parent) : QWidge
     mFileSystemModel->setRootPath(QDir::currentPath());
     mTreeView->setModel(mFileSystemModel);
 
+    mSendButton = new QPushButton("Send");
+    connect(mSendButton, SIGNAL(clicked(bool)), this, SLOT(sendButtonClicked()));
+
     mMainLayout =new QVBoxLayout(this);
     mMainLayout->addLayout(mIPPortHLayout);
     mMainLayout->addWidget(mTreeView);
+    mMainLayout->addWidget(mSendButton);
 
     updateIPAddresses();
 }
 
 MainWidget::~MainWidget() {
+    delete mSendButton;
+    delete mFileSystemModel;
     delete mIPLabel;
     delete mIPAddressComboBox;
     delete mStartStopButton;
@@ -60,7 +66,14 @@ MainWidget::~MainWidget() {
     delete mPortHLayout;
     delete mIPPortHLayout;
     delete mIPPortVLayout;
+    delete mTreeView;
     delete mMainLayout;
+}
+
+void MainWidget::sendButtonClicked() {
+    QModelIndex index = mTreeView->currentIndex();
+    QString path = mFileSystemModel->filePath(index);
+    qDebug() << path;
 }
 
 void MainWidget::updateIPAddresses() const {
@@ -72,7 +85,7 @@ void MainWidget::updateIPAddresses() const {
 }
 
 void MainWidget::updateIPComboBox(int index) {
-
+    mNetworkService->updateSelectedAddress(index);
 }
 
 void MainWidget::startStopButtonClicked() {

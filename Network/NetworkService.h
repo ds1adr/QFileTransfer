@@ -20,11 +20,12 @@ class NetworkService: public QObject {
 
 private:
     QList<QHostAddress> mAddressList;
-    std::optional<QHostAddress> selectedAddress = std::nullopt;
+    std::optional<QHostAddress> mSelectedAddress = std::nullopt;
     int mPort = 8989;
 
     QList<QHostAddress> scanIPAddresses() const;
     QTcpServer* mServer = nullptr;
+    QTcpSocket* mSocket = nullptr;
 
 public:
     NetworkService();
@@ -36,9 +37,11 @@ public:
 
     int startToListen();
     void clear();
+    void updateSelectedAddress(int index);
 
 private slots:
     void newConnection();
+    void onDisconnected();
 };
 
 

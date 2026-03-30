@@ -9,7 +9,7 @@
 NetworkService::NetworkService() {
     mAddressList = scanIPAddresses();
     if (!mAddressList.isEmpty()) {
-        selectedAddress = mAddressList.first();
+        mSelectedAddress = mAddressList.first();
     }
 }
 
@@ -41,7 +41,7 @@ QList<QHostAddress> NetworkService::scanIPAddresses() const {
 }
 
 int NetworkService::startToListen() {
-    if (!selectedAddress.has_value()) {
+    if (!mSelectedAddress.has_value()) {
         return NoAddress;
     }
     if (mServer != nullptr) {
@@ -49,7 +49,7 @@ int NetworkService::startToListen() {
         mServer = nullptr;
     }
     mServer = new QTcpServer(this);
-    if (!mServer->listen(selectedAddress.value(), mPort)) {
+    if (!mServer->listen(mSelectedAddress.value(), mPort)) {
         return FailedToStart; // Could not start
     }
     connect(mServer, SIGNAL(newConnection()), this, SLOT(newConnection()));
@@ -57,8 +57,8 @@ int NetworkService::startToListen() {
 }
 
 void NetworkService::newConnection() {
-    QTcpSocket* socket = mServer->nextPendingConnection();
-    if (!socket) {
+    mSocket = mServer->nextPendingConnection();
+    if (!mSocket) {
         return;
     }
 
@@ -66,5 +66,15 @@ void NetworkService::newConnection() {
 }
 
 void NetworkService::clear() {
+    if (mServer != nullptr) {
+        mServer->close();
+    }
+}
+
+void NetworkService::updateSelectedAddress(int index) {
+    mSelectedAddress = mAddressList[index];
+}
+
+void NetworkService::onDisconnected() {
 
 }

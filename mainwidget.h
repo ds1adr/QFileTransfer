@@ -48,6 +48,7 @@ private:
 
     QFileSystemModel* mFileSystemModel;
     QTreeView* mTreeView;
+    QPushButton* mSendButton;
 
     void updateIPAddresses() const;
 
@@ -56,6 +57,7 @@ private:
 private slots:
     void startStopButtonClicked();
     void updateIPComboBox(int index);
+    void sendButtonClicked();
 };
 
 
